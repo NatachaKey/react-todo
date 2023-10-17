@@ -24,4 +24,4 @@ function InputWithLabel(props) {
 }
 export default InputWithLabel;
 
-//line 6 -any child node(s) are used as the label text
+// <label htmlFor="todoTitle">{props.children}</label> -any child node(s) are used as the label text
