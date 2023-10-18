@@ -3,10 +3,23 @@ import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
 
 function App() {
-  const [todoList, setTodoList] = useState(() => {
-    const savedTodoList = localStorage.getItem('savedTodoList');
-    return savedTodoList ? JSON.parse(savedTodoList) : []; //turn string we got with JSON.stringify back into an Array.
-  });
+  const [todoList, setTodoList] = useState([]);
+
+  useEffect(() => {
+    const fetchTodoList = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ data: { todoList: todoList } }); //resolve is a callback function for when the Promise is successful
+      }, 2000);
+    });
+    
+    fetchTodoList
+    .then((result) => {
+      setTodoList(result.data.todoList); // Update todoList with the data from the Promise
+    })
+    .catch((error) => {
+      console.error('Error fetching todoList:', error);
+    });
+}, []); // Empty dependency list, so this runs once on component mount
 
   // Effect to save todoList to localStorage when it changes
   useEffect(() => {
