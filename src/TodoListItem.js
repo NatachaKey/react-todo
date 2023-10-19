@@ -7,6 +7,7 @@ function TodoListItem({ todo, onRemoveTodo }) {
   return (
     <div>
       <li>{todo.title}</li>
+      <li>Completed at: {todo.completedAt}</li>
       <button onClick={handleRemoveClick}>Remove</button>
     </div>
   );
