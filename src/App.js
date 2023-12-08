@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import AddTodoForm from './AddTodoForm';
 import TodoList from './TodoList';
 
+const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +17,6 @@ function App() {
         Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
       },
     };
-    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
 
     try {
       const response = await fetch(url, options);
@@ -55,14 +56,60 @@ function App() {
     }
   }, [isLoading, todoList]);
 
-  function addTodo(newTodo) {
-    setTodoList([...todoList, newTodo]); //adds a new todo
-  }
-  function removeTodo(id) {
-    // removing todo
-    const newTodoList = todoList.filter((todo) => id !== todo.id);
-    setTodoList(newTodoList);
-  }
+  const addTodo = async (title) => {
+    const postTitle = {
+      fields: {
+        title: title,
+        completedAt: String, //can'save this field to a db
+      },
+    };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      },
+      body: JSON.stringify(postTitle),
+    };
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`Error has occurred: ${response.status}`);
+      }
+      const todo = await response.json();
+      const newTodo = {
+        id: todo.id,
+        title: todo.fields.title,
+        completedAt: todo.fields.createdTime,
+      };
+      setTodoList([...todoList, newTodo]);
+    } catch (error) {
+      console.log(error.message);
+      return null;
+    }
+  };
+
+  const removeTodo = async (id) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      },
+    };
+    try {
+      const response = await fetch(`${url}/${id}`, options);
+      if (!response.ok) {
+        throw new Error(`Error has occurred: ${response.status}`);
+      }
+      const newTodoList = todoList.filter(function (todo) {
+        return id !== todo.id;
+      });
+      setTodoList(newTodoList);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
@@ -78,3 +125,5 @@ function App() {
 }
 
 export default App;
+
+//the date is not being saved (in POST request )to airtable database in ISO format - how could I do that?
