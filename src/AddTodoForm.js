@@ -14,7 +14,10 @@ function AddTodoForm({ onAddTodo }) {
   const handleAddTodo = (event) => {
     event.preventDefault();
     console.log(todoTitle);
-    onAddTodo({ title: todoTitle, id: Date.now() });
+    if (todoTitle === '') {
+      return;
+    }
+    onAddTodo(todoTitle);
     setTodoTitle(''); // Clear the form by resetting the state
   };
 

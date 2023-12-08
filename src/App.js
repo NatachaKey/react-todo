@@ -3,41 +3,113 @@ import { useState, useEffect } from 'react';
 import AddTodoForm from './AddTodoForm';
 import TodoList from './TodoList';
 
+const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-//useEffect for Initial Load , async fetching a todo list from localStorage. it updates the todoList state and sets isLoading to false.
-  useEffect(() => {
-    new Promise((resolve, reject) =>
-      setTimeout(
-        () =>
-          resolve({
-            data: {
-              todoList: JSON.parse(localStorage.getItem('savedTodoList')),
-            },
-          }),
-        2000
-      )
-    ).then((result) => {
-      setTodoList(result.data.todoList);
+
+  // Define an async fetchData function
+  const fetchData = async () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data.records);
+
+      const todos = data.records.map((todo) => {
+        return {
+          id: todo.id,
+          title: todo.fields.title,
+          createdTime: new Date().toISOString(),
+        };
+      });
+      console.log(todos);
+
+      setTodoList(todos);
       setIsLoading(false);
-    });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false); // Set isLoading to false in case of an error
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Call the fetchData function in the useEffect
   }, []);
-//useEffect for Saving to localStorage: watches for changes in isLoading and todoList, When isLoading is false, it saves the current todoList to localStorage.
+
+  //useEffect for Saving to localStorage: watches for changes in isLoading and todoList, When isLoading is false, it saves the current todoList to localStorage.
   useEffect(() => {
     if (!isLoading) {
       localStorage.setItem('savedTodoList', JSON.stringify(todoList));
     }
   }, [isLoading, todoList]);
 
-  function addTodo(newTodo) {
-    setTodoList([...todoList, newTodo]); //adds a new todo
-  }
-  function removeTodo(id) {
-    // removing todo
-    const newTodoList = todoList.filter((todo) => id !== todo.id);
-    setTodoList(newTodoList);
-  }
+  const addTodo = async (title) => {
+    const postTitle = {
+      fields: {
+        title: title,
+        createdTime: new Date().toISOString(),
+      },
+    };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      },
+      body: JSON.stringify(postTitle),
+    };
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`Error has occurred: ${response.status}`);
+      }
+      const todo = await response.json();
+      const newTodo = {
+        id: todo.id,
+        title: todo.fields.title,
+        createdTime: todo.fields.createdTime,
+      };
+      setTodoList([...todoList, newTodo]);
+    } catch (error) {
+      console.log(error.message);
+      return null;
+    }
+  };
+
+  const removeTodo = async (id) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      },
+    };
+    try {
+      const response = await fetch(`${url}/${id}`, options);
+      if (!response.ok) {
+        throw new Error(`Error has occurred: ${response.status}`);
+      }
+      const newTodoList = todoList.filter(function (todo) {
+        return id !== todo.id;
+      });
+      setTodoList(newTodoList);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
@@ -53,3 +125,5 @@ function App() {
 }
 
 export default App;
+
+//the date is not being saved (in POST request )to airtable database in ISO format - how could I do that?
