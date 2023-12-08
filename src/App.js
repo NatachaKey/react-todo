@@ -32,7 +32,7 @@ function App() {
         return {
           id: todo.id,
           title: todo.fields.title,
-          completedAt: todo.fields.completedAt,
+          createdTime: new Date().toISOString(),
         };
       });
       console.log(todos);
@@ -60,7 +60,7 @@ function App() {
     const postTitle = {
       fields: {
         title: title,
-        completedAt: String, //can'save this field to a db
+        createdTime: new Date().toISOString(),
       },
     };
     const options = {
@@ -80,7 +80,7 @@ function App() {
       const newTodo = {
         id: todo.id,
         title: todo.fields.title,
-        completedAt: todo.fields.createdTime,
+        createdTime: todo.fields.createdTime,
       };
       setTodoList([...todoList, newTodo]);
     } catch (error) {

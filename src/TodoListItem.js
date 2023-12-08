@@ -7,7 +7,7 @@ function TodoListItem({ todo, onRemoveTodo }) {
   return (
     <div>
       <li>{todo.title}</li>
-      <li>Completed at: {todo.completedAt}</li>
+      <li>Created time: {todo.createdTime}</li>
       <button onClick={handleRemoveClick}>Remove</button>
     </div>
   );
