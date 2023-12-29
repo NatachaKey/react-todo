@@ -14,6 +14,7 @@ function App() {
     const options = {
       method: 'GET',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
       },
     };
@@ -60,7 +61,8 @@ function App() {
     const postTitle = {
       fields: {
         title: title,
-        createdTime: new Date().toISOString(),
+        // Use the Airtable format for the createdTime field
+    createdTime: new Date().toISOString().replace(/\.\d{3}/, ''),
       },
     };
     const options = {
@@ -126,4 +128,4 @@ function App() {
 
 export default App;
 
-//the date is not being saved (in POST request )to airtable database in ISO format - how could I do that?
+//the date is not being saved (in POST request )to airtable database 
