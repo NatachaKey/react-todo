@@ -61,8 +61,6 @@ function App() {
     const postTitle = {
       fields: {
         title: title,
-        // Use the Airtable format for the createdTime field
-    createdTime: new Date().toISOString().replace(/\.\d{3}/, ''),
       },
     };
     const options = {
@@ -82,7 +80,6 @@ function App() {
       const newTodo = {
         id: todo.id,
         title: todo.fields.title,
-        createdTime: todo.fields.createdTime,
       };
       setTodoList([...todoList, newTodo]);
     } catch (error) {
@@ -128,4 +125,3 @@ function App() {
 
 export default App;
 
-//the date is not being saved (in POST request )to airtable database 
