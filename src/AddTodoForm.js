@@ -10,7 +10,7 @@ function AddTodoForm({ onAddTodo }) {
     let newTodoTitle = event.target.value;
     setTodoTitle(newTodoTitle);
   };
-  //fn called when user submits the form -line 17
+
   const handleAddTodo = (event) => {
     event.preventDefault();
     console.log(todoTitle);
@@ -18,7 +18,7 @@ function AddTodoForm({ onAddTodo }) {
       return;
     }
     onAddTodo(todoTitle);
-    setTodoTitle(''); // Clear the form by resetting the state
+    setTodoTitle('');
   };
 
   return (

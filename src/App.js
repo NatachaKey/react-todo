@@ -142,5 +142,3 @@ function App() {
 }
 
 export default App;
-
-//the date is not being saved (in POST request )to airtable database
