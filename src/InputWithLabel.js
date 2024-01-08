@@ -4,9 +4,8 @@ function InputWithLabel(props) {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    // Focus the input element when the component mounts
     inputRef.current.focus();
-  }); // no dependency list to run this effect every time the component mounts
+  });
 
   return (
     <>
@@ -17,11 +16,9 @@ function InputWithLabel(props) {
         name="title"
         value={props.todoTitle}
         onChange={props.handleTitleChange}
-        ref={inputRef} // Attach the ref to the input element
+        ref={inputRef}
       />
     </>
   );
 }
 export default InputWithLabel;
-
-// <label htmlFor="todoTitle">{props.children}</label> -any child node(s) are used as the label text
