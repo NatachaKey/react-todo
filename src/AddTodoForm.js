@@ -13,7 +13,6 @@ function AddTodoForm({ onAddTodo }) {
 
   const handleAddTodo = (event) => {
     event.preventDefault();
-    console.log(todoTitle);
     if (todoTitle === '') {
       return;
     }

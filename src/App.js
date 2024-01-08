@@ -37,7 +37,6 @@ function App() {
           createdTime: new Date().toISOString(),
         };
       });
-      console.log(todos);
 
       setTodoList(todos);
       setIsLoading(false);
