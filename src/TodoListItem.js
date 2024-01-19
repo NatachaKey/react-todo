@@ -3,7 +3,7 @@ import style from './TodoListItem.module.css';
 
 function TodoListItem({ todo, onRemoveTodo }) {
   const handleRemoveClick = () => {
-    onRemoveTodo(todo.id); //pass current item id as an argument
+    onRemoveTodo(todo.id);
   };
   return (
     <div>
