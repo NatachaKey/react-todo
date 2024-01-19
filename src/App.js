@@ -112,7 +112,7 @@ function App() {
 
   return (
     <>
-      <h1>Todo List</h1>
+      <h1 style ={{textAlign:'center'}}>Todo List</h1>
       <AddTodoForm onAddTodo={addTodo} />
       {isLoading ? (
         <p>Loading ...</p>

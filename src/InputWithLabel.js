@@ -10,8 +10,9 @@ function InputWithLabel(props) {
 
   return (
     <>
-      <label htmlFor="todoTitle">{props.children}</label>
+      <label htmlFor="todoTitle">{props.children} </label>
       <input
+        style={{ marginLeft: '10px', border: 'none', fontSize: '20px' }}
         type="text"
         id="todoTitle"
         name="title"
