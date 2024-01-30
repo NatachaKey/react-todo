@@ -4,7 +4,7 @@ import AddTodoForm from '../components/AddTodoForm';
 import TodoList from '../components/TodoList';
 import PropTypes from 'prop-types';
 
-const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=asc`;
+const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
 
 function TodoContainer() {
   const [todoList, setTodoList] = useState([]);
@@ -12,6 +12,8 @@ function TodoContainer() {
 
   // Define an async fetchData function
   const fetchData = async () => {
+    const getAirtableDataSorted = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=asc`;
+
     const options = {
       method: 'GET',
       headers: {
@@ -21,7 +23,7 @@ function TodoContainer() {
     };
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(getAirtableDataSorted, options);
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
