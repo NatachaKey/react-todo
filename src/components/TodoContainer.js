@@ -4,7 +4,7 @@ import AddTodoForm from '../components/AddTodoForm';
 import TodoList from '../components/TodoList';
 import PropTypes from 'prop-types';
 
-const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view`;
 
 function TodoContainer() {
   const [todoList, setTodoList] = useState([]);
