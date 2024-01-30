@@ -52,7 +52,7 @@ function TodoContainer() {
         return {
           id: todo.id,
           title: todo.fields.title,
-          createdTime: new Date().toISOString(),
+          createdTime: todo.createdTime.toLocaleString(),
         };
       });
 

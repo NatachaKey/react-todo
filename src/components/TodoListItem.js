@@ -12,10 +12,25 @@ function TodoListItem({ todo, onRemoveTodo, onUpdateTodo  }) {
       onUpdateTodo(todo.id, newTitle);
     }
   };
+
+  // Convert ISO-formatted date to a Date object
+  const createdTime = new Date(todo.createdTime);
+
+  // Format the date as desired (example: "January 30, 2024, 13:23:21")
+  const formattedCreatedTime = createdTime.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
+
+
   return (
     <div>
       <li className={style.listItem}>{todo.title}</li>
-      <li>Created time: {todo.createdTime}</li>
+      <li>Created time: {formattedCreatedTime}</li>
       <button className={style.btnupdate} onClick={handleUpdateClick}>
         Update
       </button>
