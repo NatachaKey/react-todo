@@ -31,6 +31,17 @@ function TodoContainer() {
 
       const data = await response.json();
       console.log(data.records);
+      data.records.sort((objectA, objectB) => {
+        const titleA = objectA.fields.title.toUpperCase();
+        const titleB = objectB.fields.title.toUpperCase();
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }
+        return 0;
+      });
 
       const todos = data.records.map((todo) => {
         return {
