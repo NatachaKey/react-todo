@@ -3,16 +3,21 @@ import { useState, useEffect } from 'react';
 import AddTodoForm from '../components/AddTodoForm';
 import TodoList from '../components/TodoList';
 import PropTypes from 'prop-types';
-
+import style from './TodoListItem.module.css';
 const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
 
 function TodoContainer() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortOrder, setSortOrder] = React.useState('asc');
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
 
   // Define an async fetchData function
   const fetchData = async () => {
-    const getAirtableDataSorted = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=asc`;
+    const getAirtableDataSorted = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sortOrder}`;
 
     const options = {
       method: 'GET',
@@ -35,10 +40,10 @@ function TodoContainer() {
         const titleA = objectA.fields.title.toUpperCase();
         const titleB = objectB.fields.title.toUpperCase();
         if (titleA < titleB) {
-          return -1;
+          return sortOrder === 'asc' ? -1 : 1;
         }
         if (titleA > titleB) {
-          return 1;
+          return sortOrder === 'asc' ? 1 : -1;
         }
         return 0;
       });
@@ -61,7 +66,7 @@ function TodoContainer() {
 
   useEffect(() => {
     fetchData(); // Call the fetchData function in the useEffect
-  }, []);
+  }, [sortOrder]);
 
   //useEffect for Saving to localStorage: watches for changes in isLoading and todoList, When isLoading is false, it saves the current todoList to localStorage.
   useEffect(() => {
@@ -166,6 +171,17 @@ function TodoContainer() {
         <div>
           <h1 style={{ textAlign: 'center' }}>Todo List</h1>
           <AddTodoForm onAddTodo={addTodo} />
+
+          {sortOrder === 'asc' ? (
+            <button onClick={toggleSortOrder} className={style.btnsort}>
+              Sort A-Z &#129047;
+            </button>
+          ) : (
+            <button onClick={toggleSortOrder} className={style.btnsort}>
+              Sort Z-A &#129045;
+            </button>
+          )}
+
           {isLoading ? (
             <p>Loading ...</p>
           ) : (
