@@ -9,44 +9,13 @@ const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_I
 function TodoContainer() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [sortOption, setSortOption] = useState('titleAsc'); // Default sorting by title A-Z
-
-  const toggleSortOption = (newSortOption) => {
-    setSortOption(newSortOption);
-  };
+  const [sortOrder, setSortOrder] = useState('asc'); // Default sorting in ascending order
 
   // Define an async fetchData function
   const fetchData = async () => {
-    // Define sorting options based on the selected sortOption
-    let sortingField;
-    let sortingDirection;
-
-    switch (sortOption) {
-      case 'titleAsc':
-        sortingField = 'title';
-        sortingDirection = 'asc';
-        break;
-      case 'titleDesc':
-        sortingField = 'title';
-        sortingDirection = 'desc';
-        break;
-      case 'createdTimeNewest':
-        sortingField = 'createdTime';
-        sortingDirection = 'desc';
-        
-        break;
-      case 'createdTimeOldest':
-        sortingField = 'createdTime';
-        sortingDirection = 'asc';
-        break;
-      default:
-        sortingField = 'title';
-        sortingDirection = 'asc';
-    }
-
-    const getAirtableDataSorted = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort[0][field]=${sortingField}&sort[0][direction]=${sortingDirection}`;
-
-    const options = {
+   
+   
+     const options = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +24,7 @@ function TodoContainer() {
     };
 
     try {
-      const response = await fetch(getAirtableDataSorted, options);
+      const response = await fetch(url, options);
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
@@ -64,7 +33,7 @@ function TodoContainer() {
       const data = await response.json();
       console.log(data.records);
 
-      
+   
       const todos = data.records.map((todo) => {
         return {
           id: todo.id,
@@ -83,7 +52,7 @@ function TodoContainer() {
 
   useEffect(() => {
     fetchData(); // Call the fetchData function in the useEffect
-  }, [sortOption]);
+  }, []);
 
   //useEffect for Saving to localStorage: watches for changes in isLoading and todoList, When isLoading is false, it saves the current todoList to localStorage.
   useEffect(() => {
@@ -91,6 +60,19 @@ function TodoContainer() {
       localStorage.setItem('savedTodoList', JSON.stringify(todoList));
     }
   }, [isLoading, todoList]);
+
+// Function to handle sorting
+const sortTodoList = (order) => {
+  const sortedList = [...todoList];
+  sortedList.sort((a, b) => {
+    const titleA = a.title.toUpperCase();
+    const titleB = b.title.toUpperCase();
+    return order === 'asc' ? titleA.localeCompare(titleB) : titleB.localeCompare(titleA);
+  });
+  setSortOrder(order);
+  setTodoList(sortedList);
+};
+
 
   const addTodo = async (title) => {
     const postTitle = {
@@ -190,25 +172,25 @@ function TodoContainer() {
           <AddTodoForm onAddTodo={addTodo} />
 
           <button
-            onClick={() => toggleSortOption('titleAsc')}
+            onClick={() => sortTodoList('asc')}
             className={style.btnsort}
           >
             Sort Title A-Z &#129047;
           </button>
           <button
-            onClick={() => toggleSortOption('titleDesc')}
+           onClick={() => sortTodoList('desc')} 
             className={style.btnsort}
           >
             Sort Title Z-A &#129045;
           </button>
           <button
-            onClick={() => toggleSortOption('createdTimeNewest')}
+           
             className={style.btnsort}
           >
             Sort Oldest First &#128336;
           </button>
           <button
-            onClick={() => toggleSortOption('createdTimeOldest')}
+            
             className={style.btnsort}
           >
             Sort Newest First &#128337;
