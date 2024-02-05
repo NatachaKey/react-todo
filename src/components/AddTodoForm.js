@@ -1,13 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import InputWithLabel from './InputWithLabel';
-import style from './TodoListItem.module.css';
 import PropTypes from 'prop-types';
 
 AddTodoForm.propTypes = {
   onAddTodo: PropTypes.func.isRequired,
 };
-
 
 function AddTodoForm({ onAddTodo }) {
   const [todoTitle, setTodoTitle] = useState('');
@@ -39,7 +37,7 @@ function AddTodoForm({ onAddTodo }) {
           </InputWithLabel>
           <button
             style={{
-              backgroundColor: '#36A',
+              backgroundColor: '#052935',
               marginLeft: '5px',
               color: 'white',
               border: 'none',
@@ -49,7 +47,7 @@ function AddTodoForm({ onAddTodo }) {
             }}
             type="submit"
           >
-            Add
+            ADD
           </button>
         </div>
       </form>

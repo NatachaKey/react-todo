@@ -2,12 +2,12 @@ import React from 'react';
 import style from './TodoListItem.module.css';
 import PropTypes from 'prop-types';
 
-function TodoListItem({ todo, onRemoveTodo, onUpdateTodo  }) {
+function TodoListItem({ todo, onRemoveTodo, onUpdateTodo }) {
   const handleRemoveClick = () => {
     onRemoveTodo(todo.id);
   };
   const handleUpdateClick = () => {
-    const newTitle = prompt("Change the task name:", todo.title);
+    const newTitle = prompt('Change the task name:', todo.title);
     if (newTitle !== null) {
       onUpdateTodo(todo.id, newTitle);
     }
@@ -25,7 +25,6 @@ function TodoListItem({ todo, onRemoveTodo, onUpdateTodo  }) {
     minute: 'numeric',
     second: 'numeric',
   });
-
 
   return (
     <div>
