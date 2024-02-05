@@ -179,7 +179,7 @@ function TodoContainer() {
     <>
       <div>
         <div>
-          <h1 style={{ textAlign: 'center' }}>Todo List</h1>
+          <h1 style={{ textAlign: 'center', fontSize:'35px', fontWeight:'bolder' }}>Todo List</h1>
           <AddTodoForm onAddTodo={addTodo} />
 
           <button onClick={() => sortTodoList('asc')} className={style.btnsort}>
