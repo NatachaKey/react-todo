@@ -73,6 +73,17 @@ const sortTodoList = (order) => {
   setTodoList(sortedList);
 };
 
+// Function to handle sorting by createdTime
+const sortTodoListByCreatedTime = (order) => {
+  const sortedList = [...todoList];
+  sortedList.sort((a, b) => {
+    const timeA = new Date(Date.parse(a.createdTime));
+    const timeB = new Date(Date.parse(b.createdTime));
+    return order === 'timeUp' ? timeA - timeB : timeB - timeA;
+  });
+  setSortOrder(order);
+  setTodoList(sortedList);
+};
 
   const addTodo = async (title) => {
     const postTitle = {
@@ -184,13 +195,13 @@ const sortTodoList = (order) => {
             Sort Title Z-A &#129045;
           </button>
           <button
-           
+           onClick={()=> sortTodoListByCreatedTime('timeUp')}
             className={style.btnsort}
           >
             Sort Oldest First &#128336;
           </button>
           <button
-            
+            onClick={()=> sortTodoListByCreatedTime('timeDown')}
             className={style.btnsort}
           >
             Sort Newest First &#128337;
