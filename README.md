@@ -20,6 +20,7 @@ REACT_APP_AIRTABLE_BASE_ID="your_airtable_base_id"
 REACT_APP_TABLE_NAME="your_table_name"
 ```
 You should grab these values from your airtable project previously set up on airtaible.com.
+
 6.To start the application, run ```npm start```.
 
 7.To run tests, use the command npm test. In this app we are using Jest to detect errors and improve code quality.
