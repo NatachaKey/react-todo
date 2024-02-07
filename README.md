@@ -1,8 +1,8 @@
-##todo app
+Todo app
 
 A simple React application for creating and managing tasks.
 
-##Installation
+Installation
 
 1.Clone the repository to your local machine.
 2.Ensure that you have Node.js installed.
@@ -18,7 +18,7 @@ You should grab these values from your airtable project previously set up on air
 6.To start the application, run ```npm start```.
 7.To run tests, use the command npm test. In this app we are using Jest to detect errors and improve code quality.
 
-##Airtable Integration
+Airtable Integration
 The application integrates with Airtable, a cloud-based database, to store and manage task data. It utilizes the following methods for interaction:
 
 GET: Retrieves data from Airtable to display tasks and their details.
@@ -26,7 +26,7 @@ POST: Adds new tasks to the Airtable database.
 PATCH: Updates existing tasks in the Airtable database.
 DELETE: Removes tasks from the Airtable database.
 
-##Usage
+Usage
 Add Task: Enter the task name in the input field and click the "Add" button.
 Remove Task: Click the delete button next to the task.
 Update Task: Click the edit button next to the task and enter the new name.
