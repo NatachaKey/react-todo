@@ -10,7 +10,7 @@ A simple React application for creating and managing tasks.
 
 3. Run ```npm install``` in the root directory of the project.
 
-4. Create a .env.local file in the root directory.
+4. Create a ```.env.local``` file in the root directory.
 
 5. Add the following environment variables to the``` .env.local``` file:
 
