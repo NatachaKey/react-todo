@@ -9,13 +9,12 @@ const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_I
 function TodoContainer() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // eslint-disable-next-line
   const [sortOrder, setSortOrder] = useState('asc'); // Default sorting in ascending order
 
   // Define an async fetchData function
   const fetchData = async () => {
-   
-   
-     const options = {
+    const options = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +32,6 @@ function TodoContainer() {
       const data = await response.json();
       console.log(data.records);
 
-   
       const todos = data.records.map((todo) => {
         return {
           id: todo.id,
@@ -61,29 +59,31 @@ function TodoContainer() {
     }
   }, [isLoading, todoList]);
 
-// Function to handle sorting
-const sortTodoList = (order) => {
-  const sortedList = [...todoList];
-  sortedList.sort((a, b) => {
-    const titleA = a.title.toUpperCase();
-    const titleB = b.title.toUpperCase();
-    return order === 'asc' ? titleA.localeCompare(titleB) : titleB.localeCompare(titleA);
-  });
-  setSortOrder(order);
-  setTodoList(sortedList);
-};
+  // Function to handle sorting
+  const sortTodoList = (order) => {
+    const sortedList = [...todoList];
+    sortedList.sort((a, b) => {
+      const titleA = a.title.toUpperCase();
+      const titleB = b.title.toUpperCase();
+      return order === 'asc'
+        ? titleA.localeCompare(titleB)
+        : titleB.localeCompare(titleA);
+    });
+    setSortOrder(order);
+    setTodoList(sortedList);
+  };
 
-// Function to handle sorting by createdTime
-const sortTodoListByCreatedTime = (order) => {
-  const sortedList = [...todoList];
-  sortedList.sort((a, b) => {
-    const timeA = new Date(Date.parse(a.createdTime));
-    const timeB = new Date(Date.parse(b.createdTime));
-    return order === 'timeUp' ? timeA - timeB : timeB - timeA;
-  });
-  setSortOrder(order);
-  setTodoList(sortedList);
-};
+  // Function to handle sorting by createdTime
+  const sortTodoListByCreatedTime = (order) => {
+    const sortedList = [...todoList];
+    sortedList.sort((a, b) => {
+      const timeA = new Date(Date.parse(a.createdTime));
+      const timeB = new Date(Date.parse(b.createdTime));
+      return order === 'timeUp' ? timeA - timeB : timeB - timeA;
+    });
+    setSortOrder(order);
+    setTodoList(sortedList);
+  };
 
   const addTodo = async (title) => {
     const postTitle = {
@@ -179,29 +179,26 @@ const sortTodoListByCreatedTime = (order) => {
     <>
       <div>
         <div>
-          <h1 style={{ textAlign: 'center' }}>Todo List</h1>
+          <h1 style={{ textAlign: 'center', fontSize:'35px', fontWeight:'bolder' }}>Todo List</h1>
           <AddTodoForm onAddTodo={addTodo} />
 
-          <button
-            onClick={() => sortTodoList('asc')}
-            className={style.btnsort}
-          >
+          <button onClick={() => sortTodoList('asc')} className={style.btnsort}>
             Sort Title A-Z &#129047;
           </button>
           <button
-           onClick={() => sortTodoList('desc')} 
+            onClick={() => sortTodoList('desc')}
             className={style.btnsort}
           >
             Sort Title Z-A &#129045;
           </button>
           <button
-           onClick={()=> sortTodoListByCreatedTime('timeUp')}
+            onClick={() => sortTodoListByCreatedTime('timeUp')}
             className={style.btnsort}
           >
             Sort Oldest First &#128336;
           </button>
           <button
-            onClick={()=> sortTodoListByCreatedTime('timeDown')}
+            onClick={() => sortTodoListByCreatedTime('timeDown')}
             className={style.btnsort}
           >
             Sort Newest First &#128337;
