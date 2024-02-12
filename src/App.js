@@ -1,13 +1,13 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import TodoContainer from './components/TodoContainer';
-import HomePage from './components/HomePage';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TodoContainer from "./components/TodoContainer";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route exact path="/mytodo" element={<TodoContainer />} />
+        <Route exact path="/" element={<TodoContainer />} />
+        <Route path="/new" element={<h1>New Todo List</h1>} />
       </Routes>
     </BrowserRouter>
   );

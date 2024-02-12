@@ -1,14 +1,12 @@
 body {
   background-color: #eef5ff;
-  color: #052935;
+  color: #176b87;
   font-family: 'Poppins', sans-serif;
-  font-style: bolder;
-  font-weight: 700;
   display: flex;
   justify-content: center;
 }
 .listItem {
-  color: #581b2e;
+  color: #ff004d;
   text-transform: uppercase;
 }
 
@@ -76,7 +74,7 @@ body {
   cursor: pointer;
 }
 .btnadd {
-  background-color: #240811;
+  background-color: #36a9ae;
   background-image: linear-gradient(#cf86d1, #955597);
   border: 1px solid #2a8387;
   border-radius: 14px;
@@ -166,4 +164,11 @@ body {
     box-shadow: none;
     color: #2c5777;
   }
+}
+@media (max-width: 767px) {
+  body {
+    background-color: #ffe5e5; /* Change background color for small screens */
+  }
+
+  /* Additional styles specific to small screens if needed */
 }
