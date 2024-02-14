@@ -23,7 +23,7 @@ const HomePage = () => {
     
     <div className={style.center} ref={container}>
       <h1 className="box">Welcome to My Todo List App!</h1>
-      <p>Click the button below to go to your Todo List:</p>
+  
       <button className={style.goToBtn} onClick={navigateToTodoPage}>
         <span></span>
         <span></span>
